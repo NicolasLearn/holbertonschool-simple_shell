@@ -1,0 +1,41 @@
+#include "main.h"
+
+/**
+ *shell - Prompt to user input
+ *Return: 0 on success and -1 if fails
+ */
+int main(void)
+{
+	char *buff;
+	int call;
+	int argc;
+	char *argv[128];
+
+	call = 0;
+	while (1)
+	{
+		buff = _get_line();
+		if (buff == NULL)
+		{
+			return (-1);
+		}
+		if (_strlen(buff) > 128)
+		{
+			free(buff);
+			continue;
+		}
+		argc = split_line(buff, argv);
+		if (argc <= 0)
+		{
+			free(buff);
+			continue;
+		}
+		call = check_builtin_func(argv, environ);
+		if (call == -1)
+		{
+			_execve(argv[0], argv, environ);
+		}
+		free(buff);
+	}
+	return (0);
+}
