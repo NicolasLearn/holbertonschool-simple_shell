@@ -1,37 +1,31 @@
-#ifndef HEADER
-#define HEADER
+#ifndef __MAIN_H__
+#define __MAIN_H__
 
-#include <stdio.h>
+/*---------------------------------------------------------------------------*/
+		/*LIBRAIRY*/
+/*---------------------------------------------------------------------------*/
+
 #include <stdlib.h>
 #include <unistd.h>
-#include <string.h>
-#include <sys/wait.h>
 #include <sys/types.h>
+#include <stdio.h>
+#include <string.h>
 
-extern char **environ;
+/*---------------------------------------------------------------------------*/
+		/*EXTERN VARIABLE*/
+/*---------------------------------------------------------------------------*/
 
-int shell(void);
-char *_get_line();
-int split_line(char *line, char *argv[]);
-int check_builtin_func(char *argv[], char **env);
-int _execve(char *path, char *argv[], char **envp);
-int _strlen(char *s);
-char *search_path(char *command);
-char *_getenv(char *name);
+extern char **env;
 
-/**
- * struct builfunc - Structure of builtin functions
- * @name: command to match
- * @func: Name of the function
- */
-typedef struct builfunc
-{
-	char *name;
-	int (*func)(char *argv[], char **env);
-} builfunc_t;
+/*---------------------------------------------------------------------------*/
+		/*STRUCT*/
+/*---------------------------------------------------------------------------*/
 
-int shell_cd(char *argv[], char **env);
-int shell_exit(char *argv[], char **env);
-int shell_env(char *argv[], char **env);
+/*---------------------------------------------------------------------------*/
+		/*PROTOTYPE FILE : MANIP_STRING*/
+/*---------------------------------------------------------------------------*/
+
+char *get_input_cmd(char **command);
+char *_strcpy(char *dest, char *src);
 
 #endif
