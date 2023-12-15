@@ -39,7 +39,10 @@ int is_shell_cmd(char *command);
 		/*PROTOTYPE FILE : MANIP_STRING*/
 /*---------------------------------------------------------------------------*/
 
+char *_strcpy(char *dest, char *src);
 char *get_cmd_line(char *input, char *array_token[]);
-int is_valid_cmd(char *command);
+char *get_PATH(void);
+char *is_here(char *path, char *exec);
+char *is_valid_cmd(char *command);
 
 #endif
