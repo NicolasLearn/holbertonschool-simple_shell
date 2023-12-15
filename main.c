@@ -1,41 +1,38 @@
 #include "main.h"
 
+/*---------------------------------------------------------------------------*/
+		/*MAIN*/
+/*---------------------------------------------------------------------------*/
+
 /**
- *shell - Prompt to user input
- *Return: 0 on success and -1 if fails
- */
+ * main - Entry point.
+ *
+ * Return: always 0.
+*/
 int main(void)
 {
-	char *buff;
-	int call;
-	int argc;
-	char *argv[128];
+	char *command = NULL, *input = NULL;
 
-	call = 0;
 	while (1)
 	{
-		buff = _get_line();
-		if (buff == NULL)
+		if (isatty(STDIN_FILENO))
+			printf("$ ");
+		input = get_input_cmd(&command);
+		if (input == NULL)
 		{
-			return (-1);
+			free(input);
+			input = NULL;
+			exit(EXIT_FAILURE);
 		}
-		if (_strlen(buff) > 128)
-		{
-			free(buff);
-			continue;
-		}
-		argc = split_line(buff, argv);
-		if (argc <= 0)
-		{
-			free(buff);
-			continue;
-		}
-		call = check_builtin_func(argv, environ);
-		if (call == -1)
-		{
-			_execve(argv[0], argv, environ);
-		}
-		free(buff);
+		free(input);
+		input = NULL;
 	}
 	return (0);
 }
+
+		/*appel fonction get_cmd_line -> lis ligne, genere arg[0] avec strtok, return arg[0]*/
+		/*appel fonction is_shell_comd -> compare arg[0] avec commandes integrer shell (exit, env), execute fonction si existe, return si exec or not*/
+			/*retour debut de la boucle*/
+		/*appel fonction is_exist -> recherche si arg[0] est un fichhier executable existant dans les tokens de PATH, return match_path si found or NULL*/
+			/*retour debut de la boucle*/
+		/*appel exec_cmd -> genere token string, execute la commande avec match_path, token_array, environ*/
