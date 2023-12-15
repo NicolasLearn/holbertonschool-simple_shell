@@ -1,51 +1,33 @@
 #include "main.h"
 
 /*---------------------------------------------------------------------------*/
-		/*_STRCPY*/
+		/*GET_CMD_LINE*/
 /*---------------------------------------------------------------------------*/
 
-/**
- * _strcpy - copy strings
- * @dest: destination for the copy of strings
- * @src: source of strings at copy
- *
- * Return: pointer of string copy
- */
-char *_strcpy(char *dest, char *src)
+char *get_cmd_line(char *input, char *array_token[])
 {
 	int i = 0;
+	char *token, *command_buf = NULL;
+	const char *delim = " \t\n\r";
 
-	while (src[i] != '\0')
+	token = strtok(input, "\n");
+	token = strtok(token, delim);
+	command_buf = token;
+	while (token != NULL)
 	{
-		dest[i] = src[i];
+		array_token[i] = token;
+		token = strtok(NULL, delim);
 		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	array_token[i] = NULL;
+	return (command_buf);
 }
 
 /*---------------------------------------------------------------------------*/
 		/*GET_CMD_LINE*/
 /*---------------------------------------------------------------------------*/
 
-/**
- * get_input_cmd - get the input of user, back up the first argument.
- * @command: pointer to the first argument (command).
- *
- * Return: pointer to the input. Or NULL if failed.
-*/
-char *get_input_cmd(char **command)
+int is_valid_cmd(char *command)
 {
-	char *input = NULL;
-	size_t size_buff_input = 0;
-	char *buffer = NULL, array_buf[256];
 
-	if ((getline(&input, &size_buff_input, stdin)) != -1)
-	{
-		buffer = _strcpy(array_buf, input);
-		*command = strtok(buffer, " ");
-		if (command == NULL)
-			input = NULL;
-	}
-	return (input);
 }

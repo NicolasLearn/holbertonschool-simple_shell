@@ -12,27 +12,45 @@
 int main(void)
 {
 	char *command = NULL, *input = NULL;
+	size_t size_buff_input = 0;
+	char *array_token[128];
+	int i;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
-		input = get_input_cmd(&command);
-		if (input == NULL)
+		if (((getline(&input, &size_buff_input, stdin)) == -1) || (input == NULL))
 		{
 			free(input);
 			input = NULL;
 			exit(EXIT_FAILURE);
+		}
+		command = get_cmd_line(input, array_token);
+		if (command == NULL)
+		{
+			free(input);
+			input = NULL;
+			exit(EXIT_FAILURE);
+		}
+		if ((is_shell_cmd(command)) == 0)
+		{
+			if(is_valid_cmd(command) == 1)
+				/*fonction exec*/
+			else
+				/*error message*/
 		}
 		free(input);
 		input = NULL;
 	}
 	return (0);
 }
-
-		/*appel fonction get_cmd_line -> lis ligne, genere arg[0] avec strtok, return arg[0]*/
-		/*appel fonction is_shell_comd -> compare arg[0] avec commandes integrer shell (exit, env), execute fonction si existe, return si exec or not*/
-			/*retour debut de la boucle*/
-		/*appel fonction is_exist -> recherche si arg[0] est un fichhier executable existant dans les tokens de PATH, return match_path si found or NULL*/
-			/*retour debut de la boucle*/
-		/*appel exec_cmd -> genere token string, execute la commande avec match_path, token_array, environ*/
+/*lecture de input directement sur le main, plus de fonction de lecture, pas utile*/
+/*test input pas au point attente gestion des erreurs*/
+/*j'ai modifier ta fonction get_cmd_line pour qu'elle renvoie un pointeur de arg[0], pour l'utiliser plus facilement grâce a une variable*/
+/*test command identique que test input*/
+/*modification aussi de la fonction is_shell_cmd, ajout d'une struct et adaptattion pour utliser la variable command*/
+/*j'ai supprimer environ des paramètres car variable global, on y a accès partout grâce a inclusion de main.h*/
+/*et sinon je travail pour la fonction is_valid_cmd*/
+/*du coup j'ai affiner un peu le main pour que ça colle avec nos functions et la tram de départ*/
+/*dis moi si ça te convient et ce que tu vois qui peut être améliorer*/
