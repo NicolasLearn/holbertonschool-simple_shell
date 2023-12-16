@@ -86,8 +86,6 @@ char *is_valid_cmd(char *command)
 				printf("match : [%s]\n", match_path);
 				break;
 			}
-			free(match_path);
-			match_path = NULL;
 		}
 	}
 	free(PATH);
@@ -135,14 +133,17 @@ char *is_here(char *path, char *exec)
 
 	len_path = strlen(path);
 	len_exec = strlen(exec);
-	try_path = malloc((sizeof(char) * (len_path + len_exec)) + 1);
+	try_path = malloc((sizeof(char) * (len_path + len_exec)) + 2);
 	if (try_path != NULL)
 	{
 		strcpy(try_path, path);
 		try_path[len_path] = '/';
-		strcat(try_path, exec);
+		strcpy(&try_path[len_path + 1], exec);
 		if ((access(try_path, X_OK)) != 0)
+		{
+			free(try_path);
 			try_path = NULL;
+		}
 	}
 	return (try_path);
 }

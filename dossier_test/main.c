@@ -44,15 +44,19 @@ int main(void)
 		{
 			match_PATH = is_valid_cmd(command);
 			if(match_PATH != NULL)
+			{
 				printf("Trouvé : [%s]\n", match_PATH);
+				free(match_PATH);
+				match_PATH = NULL;
+			}
 			else
 				printf("Pas Trouvé [%s]\n", command);
 		}
 		printf("---------------------------------------------------------\n");
 		printf("---------------------------------------------------------\n");
 		i = 0;
-		free(src_input), free(match_PATH);
-		src_input = match_PATH = NULL;
+		free(src_input);
+		src_input = NULL;
 	}
 	return (0);
 }
