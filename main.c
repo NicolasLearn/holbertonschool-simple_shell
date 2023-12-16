@@ -38,7 +38,7 @@ int main(void)
 			match_PATH = is_valid_cmd(command);
 			if(match_PATH != NULL)
 			{
-				/*fonction exec*/
+				my_exec(match_PATH, array_token);
 				free(match_PATH);
 				match_PATH = NULL;
 			}

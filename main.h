@@ -36,6 +36,7 @@ typedef struct shell_cmd
 int is_shell_cmd(char *command, char *input);
 void shell_exit(char *);
 void shell_env(char *);
+void my_exec(char *path, char *arr_tok[]);
 
 /*---------------------------------------------------------------------------*/
 		/*PROTOTYPE FILE : MANIP_STRING*/

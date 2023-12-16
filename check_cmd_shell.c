@@ -47,3 +47,31 @@ void shell_env(__attribute__((unused)) char *input)
 	for (i = 0; environ[i] != NULL; i++)
 		printf("%s\n", environ[i]);
 }
+
+/*---------------------------------------------------------------------------*/
+		/*MY_EXEC*/
+/*---------------------------------------------------------------------------*/
+
+/**
+ * my_exec - Create a child processus, and exec the command in this process.
+ * @argv: array of arguments
+*/
+void my_exec(char *path, char *arr_tok[])
+{
+	pid_t child_pid;
+	int wait_status;
+
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		perror("error:");
+		return;
+	}
+	else if (child_pid == 0)
+	{
+		execve(path, arr_tok, environ);
+		exit(EXIT_SUCCESS);
+	}
+	else
+		wait(&wait_status);
+}
