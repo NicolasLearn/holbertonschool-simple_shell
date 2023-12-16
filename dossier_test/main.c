@@ -11,7 +11,7 @@
 */
 int main(void)
 {
-	char *command = NULL, *src_input = NULL;
+	char *command = NULL, *src_input = NULL, *match_PATH = NULL;
 	size_t size_buff_input = 0;
 	char *array_token[128];
 	int i;
@@ -40,14 +40,19 @@ int main(void)
 			src_input = NULL;
 			exit(EXIT_FAILURE);
 		}
-		i = 0;
-		i = is_shell_cmd(command);
-		printf("i = %d\n", i);
+		if ((is_shell_cmd(command)) == 0)
+		{
+			match_PATH = is_valid_cmd(command);
+			if(match_PATH != NULL)
+				printf("Trouvé : [%s]\n", match_PATH);
+			else
+				printf("Pas Trouvé [%s]\n", command);
+		}
 		printf("---------------------------------------------------------\n");
 		printf("---------------------------------------------------------\n");
 		i = 0;
-		free(src_input);
-		src_input = NULL;
+		free(src_input), free(match_PATH);
+		src_input = match_PATH = NULL;
 	}
 	return (0);
 }
