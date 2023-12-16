@@ -1,43 +1,18 @@
 #include "main.h"
 
 /*---------------------------------------------------------------------------*/
-		/*_STRCPY*/
-/*---------------------------------------------------------------------------*/
-
-/**
- * _strcpy - copie the strings from 'src', include '\0' to 'dest
- * @dest: destination for the copy of the string
- * @src: source of the strings at copy
- *
- * Return: the pointer to dest
- */
-char *_strcpy(char *dest, char *src)
-{
-	int i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i++] = '\0';
-	return (dest);
-}
-
-/*---------------------------------------------------------------------------*/
 		/*GET_CMD_LINE*/
 /*---------------------------------------------------------------------------*/
 
 char *get_cmd_line(char *input, char *array_token[])
 {
 	int index = 0;
-	char *token, *command_buf = NULL;
+	char *token = NULL, *command = NULL;
 	const char *delim = " \t\n\r";
 
 	token = strtok(input, "\n");
 	token = strtok(token, delim);
-	command_buf = token;
+	command = token;
 	while (token != NULL)
 	{
 		array_token[index] = token;
@@ -45,7 +20,40 @@ char *get_cmd_line(char *input, char *array_token[])
 		index++;
 	}
 	array_token[index] = NULL;
-	return (command_buf);
+	return (command);
+}
+
+/*---------------------------------------------------------------------------*/
+		/*IS_VALID_CMD*/
+/*---------------------------------------------------------------------------*/
+
+char *is_valid_cmd(char *command)
+{
+	char *PATH = NULL, *token = NULL, *match_path = NULL;
+	char *array_token_path[128];
+	int index = 0;
+
+	PATH = get_PATH();
+	if (PATH != NULL)
+	{
+		token = strtok(PATH, ":");
+		while (token != NULL)
+		{
+			array_token_path[index] = token;
+			token = strtok(NULL, ":");
+			index++;
+		}
+		array_token_path[index] = NULL;
+		for (index = 0; array_token_path[index]; index++)
+		{
+			match_path = is_here(array_token_path[index], command);
+			if (match_path != NULL)
+				break;
+		}
+	}
+	free(PATH);
+	PATH = NULL;
+	return (match_path);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -66,7 +74,7 @@ char *get_PATH(void)
 	{
 		if (strncmp(environ[index], "PATH", 4) == 0)
 		{
-			PATH = &environ[index][5];
+			PATH = strdup(&environ[index][5]);
 			break;
 		}
 		index++;
@@ -83,39 +91,22 @@ char *get_PATH(void)
 */
 char *is_here(char *path, char *exec)
 {
+	size_t len_path = 0, len_exec = 0;
+	char *try_path = NULL;
 
-}
-
-/*---------------------------------------------------------------------------*/
-		/*IS_VALID_CMD*/
-/*---------------------------------------------------------------------------*/
-
-char *is_valid_cmd(char *command)
-{
-	char *PATH = NULL, *token = NULL, buf_PATH = NULL;
-	char *match_path = NULL;
-	char *array_token_path[128], array_buf_path[1024];
-	int index = 0;
-
-	PATH = get_PATH();
-	if (PATH != NULL)
+	len_path = strlen(path);
+	len_exec = strlen(exec);
+	try_path = malloc((sizeof(char) * (len_path + len_exec)) + 2);
+	if (try_path != NULL)
 	{
-		buf_PATH = _strcpy(array_buf_path, PATH);
-		token = strtok(buf_PATH, "\n");
-		token = strtok(token, ":");
-		while (token != NULL)
+		strcpy(try_path, path);
+		try_path[len_path] = '/';
+		strcpy(&try_path[len_path + 1], exec);
+		if ((access(try_path, X_OK)) != 0)
 		{
-			array_token_path[index] = token;
-			token = strtok(NULL, ":");
-			index++;
-		}
-		array_token_path[index] = NULL;
-		for (index = 0; array_token_path[index]; index++)
-		{
-			match_path = is_here(array_token_path[index], command);
-			if (match_path != NULL)
-				break;
+			free(try_path);
+			try_path = NULL;
 		}
 	}
-	return (match_path);
+	return (try_path);
 }
