@@ -38,12 +38,12 @@ int main(void)
 			match_PATH = is_valid_cmd(command);
 			if(match_PATH != NULL)
 			{
-				my_exec(match_PATH, array_token);
+				exec_command(match_PATH, array_token);
 				free(match_PATH);
 				match_PATH = NULL;
 			}
 			else
-				printf("error\n");
+				perror("error x :");
 		}
 		free(src_input);
 		command = src_input = NULL;

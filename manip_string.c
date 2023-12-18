@@ -4,6 +4,16 @@
 		/*GET_CMD_LINE*/
 /*---------------------------------------------------------------------------*/
 
+/**
+ * get_cmd_line - Creating token of each word from the input,
+ * and return first token (command).
+ *
+ * @input: Pointer to the not NULL string got with getline().
+ * @array_token: Adress of array of string wich will contain at each index
+ * each token create from of the input.
+ *
+ * Return: pointer to the command (first argument). Or NULL if failed.
+*/
 char *get_cmd_line(char *input, char *array_token[])
 {
 	int index = 0;
@@ -27,6 +37,17 @@ char *get_cmd_line(char *input, char *array_token[])
 		/*IS_VALID_CMD*/
 /*---------------------------------------------------------------------------*/
 
+/**
+ * is_valid_cmd - Check if command is a file executable in PATH variable
+ * get from the environment.
+ *
+ * @command: Pointer to the string to be checked.
+ *
+ * Return: Pointer to the string of matched PATH. Or NULL if not.
+ *
+ * Description: The variable "match_path", was got with malloc().
+ * Don't forget : free(match_path)!
+*/
 char *is_valid_cmd(char *command)
 {
 	char *PATH = NULL, *token = NULL, *match_path = NULL;
@@ -56,14 +77,17 @@ char *is_valid_cmd(char *command)
 	return (match_path);
 }
 
-/*---------------------------------------------------------------------------*/
-		/*GET_PATH*/
-/*---------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------*/
+			/*GET_PATH*/
+/*-----------------------------------------------------------------*/
 
 /**
- * get_PATH - get PATH from the environment
+ * get_PATH - Get the variable PATH from the environment.
  *
- * Return: pointer to the string PATH or NULL on failure
+ * Return: Pointer to the string PATH. Or NULL on failure.
+ *
+ * Description : Use of strdup(), to manipulate the PATH variable.
+ * Don't forget : free(PATH)!
  */
 char *get_PATH(void)
 {
@@ -82,13 +106,25 @@ char *get_PATH(void)
 	return (PATH);
 }
 
-/*---------------------------------------------------------------------------*/
-		/*IS_HERE*/
-/*---------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------*/
+			/*IS_HERE*/
+/*-----------------------------------------------------------------*/
 
 /**
+ * is_here - Check if the command got from the input is present and is
+ * executable since the environment PATH variable.
  *
-*/
+ * @path: Path where search the file executable.
+ * @exec: File executable to be search. It can either be in the form of :
+ * -the executable file name : <FILENAME>.
+ * -Or directely in form : </PATH/FILENAME>.
+ *
+ * Return: Pointer to the path if it exist. NULL if failed.
+ *
+ * Description : use of malloc(), to retrieve the string which will be given in
+ * comparison to access().
+ * Don't forget : free(try_path)!
+ */
 char *is_here(char *path, char *exec)
 {
 	size_t len_path = 0, len_exec = 0;

@@ -4,6 +4,15 @@
 		/*IS_SHELL_CMD*/
 /*---------------------------------------------------------------------------*/
 
+/**
+ * is_shell_cmd - Check to know if command is a shell command.
+ * If success, call the function matched at the command.
+ *
+ * @command: Pointer to the string to be checked.
+ * @input: Pointer to src_input. Necessary for exit.
+ *
+ * Return: 1 if command exist. 0 if not.
+*/
 int is_shell_cmd(char *command, char *input)
 {
 	shell_cmd array_cmd_shell[] = {
@@ -26,20 +35,14 @@ int is_shell_cmd(char *command, char *input)
 	return (is_check);
 }
 
-/*---------------------------------------------------------------------------*/
-		/*SHELL_EXIT*/
-/*---------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------*/
+			/*SHELL_ENV*/
+/*-----------------------------------------------------------------*/
 
-void shell_exit(char *input)
-{
-	free(input);
-	exit(EXIT_SUCCESS);
-}
-
-/*---------------------------------------------------------------------------*/
-		/*SHELL_ENV*/
-/*---------------------------------------------------------------------------*/
-
+/**
+ * shell_env - Print the variable environ.
+ * @input: Argument unused.
+*/
 void shell_env(__attribute__((unused)) char *input)
 {
 	int i;
@@ -48,15 +51,31 @@ void shell_env(__attribute__((unused)) char *input)
 		printf("%s\n", environ[i]);
 }
 
+/*-----------------------------------------------------------------*/
+			/*SHELL_EXIT*/
+/*-----------------------------------------------------------------*/
+
+/**
+ * shell_exit - Exits the function properly.
+ * @input: Command got with dynamic memory allocation (getline), must free.
+*/
+void shell_exit(char *input)
+{
+	free(input);
+	exit(EXIT_SUCCESS);
+}
+
 /*---------------------------------------------------------------------------*/
-		/*MY_EXEC*/
+		/*EXEC_COMMAND*/
 /*---------------------------------------------------------------------------*/
 
 /**
- * my_exec - Create a child processus, and exec the command in this process.
- * @argv: array of arguments
+ * exec_command - Create child processus, and exec command in this process.
+ *
+ * @path: Pointer to the string with the good PATH.
+ * @arr_tok: Array of string, wich contain the input in form of token.
 */
-void my_exec(char *path, char *arr_tok[])
+void exec_command(char *path, char *arr_tok[])
 {
 	pid_t child_pid;
 	int wait_status;
