@@ -11,7 +11,6 @@ char *get_cmd_line(char *input, char *array_token[])
 	const char *delim = " \t\n\r";
 
 	token = strtok(input, "\n");
-	printf("valeur premier token : [%s]\n", token);
 	token = strtok(token, delim);
 	command = token;
 	while (token != NULL)
@@ -42,7 +41,7 @@ int is_shell_cmd(char *command)
 	{
 		if (strcmp(command, array_cmd_shell[i].command) == 0)
 		{
-			printf("Trouvé : %s\n", array_cmd_shell[i].command);
+			printf("SHELL commande trouvée : [%s]\n", array_cmd_shell[i].command);
 			printf("----------------------\n");
 			break;
 		}
@@ -136,9 +135,14 @@ char *is_here(char *path, char *exec)
 	try_path = malloc((sizeof(char) * (len_path + len_exec)) + 2);
 	if (try_path != NULL)
 	{
-		strcpy(try_path, path);
-		try_path[len_path] = '/';
-		strcpy(&try_path[len_path + 1], exec);
+		if (exec[0] == '/')
+			strcpy(try_path, exec);
+		else
+		{
+			strcpy(try_path, path);
+			try_path[len_path] = '/';
+			strcpy(&try_path[len_path + 1], exec);
+		}
 		if ((access(try_path, X_OK)) != 0)
 		{
 			free(try_path);
@@ -146,4 +150,36 @@ char *is_here(char *path, char *exec)
 		}
 	}
 	return (try_path);
+}
+
+/*---------------------------------------------------------------------------*/
+		/*MY_EXEC*/
+/*---------------------------------------------------------------------------*/
+
+/**
+ * my_exec - Create a child processus, and exec the command in this process.
+ * @argv: array of arguments
+*/
+void my_exec(char *path, char *arr_tok[])
+{
+	pid_t child_pid;
+	int wait_status;
+
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		perror("error:");
+		return;
+	}
+	else if (child_pid == 0)
+	{
+		printf("---------EXEC---------\n");
+		printf("---------CHILD--------\n");
+		execve(path, arr_tok, environ);
+		printf("-------END-CHILD------\n");
+		printf("----------------------\n");
+		exit(EXIT_SUCCESS);
+	}
+	else
+		wait(&wait_status);
 }

@@ -46,6 +46,7 @@ int main(void)
 			if(match_PATH != NULL)
 			{
 				printf("Trouvé : [%s]\n", match_PATH);
+				my_exec(match_PATH, array_token);
 				free(match_PATH);
 				match_PATH = NULL;
 			}

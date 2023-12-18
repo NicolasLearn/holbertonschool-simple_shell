@@ -99,9 +99,14 @@ char *is_here(char *path, char *exec)
 	try_path = malloc((sizeof(char) * (len_path + len_exec)) + 2);
 	if (try_path != NULL)
 	{
-		strcpy(try_path, path);
-		try_path[len_path] = '/';
-		strcpy(&try_path[len_path + 1], exec);
+		if (exec[0] == '/')
+			strcpy(try_path, exec);
+		else
+		{
+			strcpy(try_path, path);
+			try_path[len_path] = '/';
+			strcpy(&try_path[len_path + 1], exec);
+		}
 		if ((access(try_path, X_OK)) != 0)
 		{
 			free(try_path);
