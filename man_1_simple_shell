@@ -1,0 +1,40 @@
+.\" Manpage for simple_shell.
+.TH man 3 "22 December 2023" "Version 1.0" "simple_shell man page"
+
+.SH NAME
+hsh - Simple Shell: command line interpreter
+
+.SH SYNOPSIS FOR INTERACTIVE MODE
+Type ./hsh to show prompt Command: [command] [options]
+
+.SH SYNOPSIS NON INTERACTIVE 
+echo "[command] [options]" | ./hsh
+
+.SH DESCRIPTION
+simple_shell (compiled as hsh) is a recreation of the sh command interpreter, made using C language. This version can execute any comman that points to an executable file, files with the full direction (for instance "/bin/ls") and files that can be found in the PATH environment variable (for instance "ls"). All the execution that are not built-ins are made using the execve C function.
+
+.SH USER INPUT
+Once a user inputs a command and hits enter, the shell performs the following actions:
+
+1. Displaying the prompt.
+
+2. Reading the command.
+
+3. Command interpretation.
+
+4. Command execution.
+
+5. Waiting for the command to finish.
+
+.SH SEARCH FOR COMMAND
+When locating a command, the shell looks for a built-in command by that name.
+If a built-in command is not found, the shell searches for the command in the PATH.
+
+.SH EXECUTE COMMAND
+Commands are executed in a child process of the main process.
+
+.SH BUILT-IN
+This version includes 2 built-ins (functions that are not found on PATH). env built-in prints all the environment variables. exit ends the shell.
+
+Author
+    This function was implemented by Nolan Binet and Nicolas Quoirez.
