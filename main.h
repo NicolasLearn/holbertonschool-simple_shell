@@ -11,12 +11,14 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 /*---------------------------------------------------------------------------*/
 		/*EXTERN VARIABLE*/
 /*---------------------------------------------------------------------------*/
 
 extern char **environ;
+extern int errno;
 
 /*---------------------------------------------------------------------------*/
 		/*STRUCT AND PROTOTYPE FILE : CHECK_CMD_SHELL*/
@@ -30,12 +32,12 @@ extern char **environ;
 typedef struct shell_cmd
 {
 	char *command;
-	void (*func)(char *);
+	void (*func)(char **);
 } shell_cmd;
 
-int is_shell_cmd(char *command, char *input);
-void shell_exit(char *);
-void shell_env(char *);
+int is_shell_cmd(char *command, char **input);
+void shell_exit(char **);
+void shell_env(char **);
 void exec_command(char *path, char *arr_tok[]);
 
 /*---------------------------------------------------------------------------*/
@@ -46,5 +48,11 @@ char *get_cmd_line(char *input, char *array_token[]);
 char *is_valid_cmd(char *command);
 char *get_PATH(void);
 char *is_here(char *path, char *exec);
+
+/*---------------------------------------------------------------------------*/
+		/*PROTOTYPE FILE : HANDLE_ERROR*/
+/*---------------------------------------------------------------------------*/
+
+void free_elem(char **elem);
 
 #endif

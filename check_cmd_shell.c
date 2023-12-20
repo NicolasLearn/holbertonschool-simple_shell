@@ -13,7 +13,7 @@
  *
  * Return: 1 if command exist. 0 if not.
 */
-int is_shell_cmd(char *command, char *input)
+int is_shell_cmd(char *command, char **input)
 {
 	shell_cmd array_cmd_shell[] = {
 		{"env", shell_env},
@@ -43,7 +43,7 @@ int is_shell_cmd(char *command, char *input)
  * shell_env - Print the variable environ.
  * @input: Argument unused.
 */
-void shell_env(__attribute__((unused)) char *input)
+void shell_env(__attribute__((unused)) char **input)
 {
 	int i;
 
@@ -59,9 +59,9 @@ void shell_env(__attribute__((unused)) char *input)
  * shell_exit - Exits the function properly.
  * @input: Command got with dynamic memory allocation (getline), must free.
 */
-void shell_exit(char *input)
+void shell_exit(char **input)
 {
-	free(input);
+	free_elem(input);
 	exit(EXIT_SUCCESS);
 }
 
@@ -83,14 +83,29 @@ void exec_command(char *path, char *arr_tok[])
 	child_pid = fork();
 	if (child_pid == -1)
 	{
-		perror("error:");
-		return;
+		fprintf(stderr, "Problem fork().\nERR %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
 	}
 	else if (child_pid == 0)
 	{
 		execve(path, arr_tok, environ);
-		exit(EXIT_SUCCESS);
+		fprintf(stderr, "Problem execve().\nERR %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
 	}
 	else
 		wait(&wait_status);
+}
+
+/*---------------------------------------------------------------------------*/
+		/*FREE_ELEM*/
+/*---------------------------------------------------------------------------*/
+
+/**
+ * free_elem - free element given in paramater.
+ * @elem: pointer to the element to be free.
+*/
+void free_elem(char **elem)
+{
+	free(*elem);
+	*elem = NULL;
 }
