@@ -55,7 +55,12 @@ char *is_valid_cmd(char *command)
 	int index = 0;
 
 	PATH = get_PATH();
-	if (PATH != NULL)
+	if (PATH == NULL)
+	{
+		fprintf(stderr, "Problem with malloc().\nERR %s", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	else
 	{
 		token = strtok(PATH, ":");
 		while (token != NULL)
@@ -77,9 +82,9 @@ char *is_valid_cmd(char *command)
 	return (match_path);
 }
 
-/*-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 			/*GET_PATH*/
-/*-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 /**
  * get_PATH - Get the variable PATH from the environment.
@@ -106,9 +111,9 @@ char *get_PATH(void)
 	return (PATH);
 }
 
-/*-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 			/*IS_HERE*/
-/*-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 /**
  * is_here - Check if the command got from the input is present and is
@@ -119,7 +124,8 @@ char *get_PATH(void)
  * -the executable file name : <FILENAME>.
  * -Or directely in form : </PATH/FILENAME>.
  *
- * Return: Pointer to the path if it exist. NULL if failed.
+ * Return: Pointer to the path if it exist. NULL if don't exist.
+ * Or pointer to the string "Error" if malloc() failed.
  *
  * Description : use of malloc(), to retrieve the string which will be given in
  * comparison to access().
@@ -133,7 +139,12 @@ char *is_here(char *path, char *exec)
 	len_path = strlen(path);
 	len_exec = strlen(exec);
 	try_path = malloc((sizeof(char) * (len_path + len_exec)) + 2);
-	if (try_path != NULL)
+	if (try_path == NULL)
+	{
+		fprintf(stderr, "Problem with malloc().\nERR %s", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	else
 	{
 		if (exec[0] == '/')
 			strcpy(try_path, exec);
