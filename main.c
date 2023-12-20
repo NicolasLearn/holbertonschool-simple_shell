@@ -24,7 +24,9 @@ int main(__attribute__((unused)) int argc, char *argv[])
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
 		if ((getline(&src_input, &size_buff_input, stdin)) == -1)
-			shell_exit(&src_input);
+		{
+			free_elem(&src_input);
+			shell_exit(); }
 		if (src_input[0] != '\n')
 		{
 			command = get_cmd_line(src_input, array_token);
