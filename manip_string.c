@@ -120,7 +120,7 @@ char *get_PATH(void)
  * executable since the environment PATH variable.
  *
  * @path: Path where search the file executable.
- * @exec: File executable to be search. It can either be in the form of :
+ * @file_exec: File executable to be search. It can either be in the form of :
  * -the executable file name : <FILENAME>.
  * -Or directely in form : </PATH/FILENAME>.
  *
@@ -131,13 +131,13 @@ char *get_PATH(void)
  * comparison to access().
  * Don't forget : free(try_path)!
  */
-char *is_here(char *path, char *exec)
+char *is_here(char *path, char *file_exec)
 {
 	size_t len_path = 0, len_exec = 0;
 	char *try_path = NULL;
 
 	len_path = strlen(path);
-	len_exec = strlen(exec);
+	len_exec = strlen(file_exec);
 	try_path = malloc((sizeof(char) * (len_path + len_exec)) + 2);
 	if (try_path == NULL)
 	{
@@ -146,13 +146,13 @@ char *is_here(char *path, char *exec)
 	}
 	else
 	{
-		if ((exec[0] == '/') || (exec[0] == '.'))
-			strcpy(try_path, exec);
+		if (is_path(file_exec, len_exec))
+			strcpy(try_path, file_exec);
 		else
 		{
 			strcpy(try_path, path);
 			try_path[len_path] = '/';
-			strcpy(&try_path[len_path + 1], exec);
+			strcpy(&try_path[len_path + 1], file_exec);
 		}
 		if ((access(try_path, X_OK)) != 0)
 		{
@@ -161,4 +161,31 @@ char *is_here(char *path, char *exec)
 		}
 	}
 	return (try_path);
+}
+
+/*---------------------------------------------------------------------------*/
+			/*is_path*/
+/*---------------------------------------------------------------------------*/
+
+/**
+ * is_path - Check if the first arg input (f_exec) is a path or a command.
+ *
+ * @f_exec: Pointer to the first argument to be checked.
+ * @len: Lenght of the string f_exec.
+ *
+ * Return: 1 if is a path. O if not.
+*/
+int is_path(char *f_exec, int len)
+{
+	int index = 0, it_is = 0;
+
+	for (; index < len; index++)
+	{
+		if (f_exec[index] == '/')
+		{
+			it_is = 1;
+			break;
+		}
+	}
+	return (it_is);
 }

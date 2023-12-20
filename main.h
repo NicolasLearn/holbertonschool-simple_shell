@@ -39,6 +39,7 @@ int is_shell_cmd(char *command, char **input);
 void shell_exit(void);
 void shell_env(void);
 void exec_command(char *path, char *arr_tok[]);
+void free_elem(char **elem);
 
 /*---------------------------------------------------------------------------*/
 		/*PROTOTYPE FILE : MANIP_STRING*/
@@ -48,11 +49,6 @@ char *get_cmd_line(char *input, char *array_token[]);
 char *is_valid_cmd(char *command);
 char *get_PATH(void);
 char *is_here(char *path, char *exec);
-
-/*---------------------------------------------------------------------------*/
-		/*PROTOTYPE FILE : HANDLE_ERROR*/
-/*---------------------------------------------------------------------------*/
-
-void free_elem(char **elem);
+int is_path(char *f_exec, int len);
 
 #endif
