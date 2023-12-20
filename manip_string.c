@@ -146,7 +146,7 @@ char *is_here(char *path, char *exec)
 	}
 	else
 	{
-		if (exec[0] == '/')
+		if ((exec[0] == '/') || (exec[0] == '.'))
 			strcpy(try_path, exec);
 		else
 		{
