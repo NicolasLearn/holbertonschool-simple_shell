@@ -32,12 +32,12 @@ extern int errno;
 typedef struct shell_cmd
 {
 	char *command;
-	void (*func)(void);
+	void (*func)(char **, int);
 } shell_cmd;
 
 int is_shell_cmd(char *command, char **input);
-void shell_exit(void);
-void shell_env(void);
+void shell_exit(char **, int);
+void shell_env(char **, int);
 void exec_command(char *path, char *arr_tok[]);
 void free_elem(char **elem);
 

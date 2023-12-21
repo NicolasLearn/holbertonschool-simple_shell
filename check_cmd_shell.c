@@ -26,9 +26,7 @@ int is_shell_cmd(char *command, char **input)
 	{
 		if (strcmp(command, array_cmd_shell[i].command) == 0)
 		{
-			if (strcmp(array_cmd_shell[i].command, "exit") == 0)
-				free_elem(input);
-			array_cmd_shell[i].func();
+			array_cmd_shell[i].func(input, EXIT_SUCCESS);
 			is_check = 1;
 			break;
 		}
@@ -37,31 +35,32 @@ int is_shell_cmd(char *command, char **input)
 	return (is_check);
 }
 
-/*-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 			/*SHELL_ENV*/
-/*-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 /**
  * shell_env - Print the variable environ.
+ * @input: Argument unused.
 */
-void shell_env(void)
+void shell_env(__attribute__((unused)) char **input, int index)
 {
-	int i;
-
-	for (i = 0; environ[i] != NULL; i++)
-		printf("%s\n", environ[i]);
+	for (index = 0; environ[index] != NULL; index++)
+		printf("%s\n", environ[index]);
 }
 
-/*-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 			/*SHELL_EXIT*/
-/*-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 /**
  * shell_exit - Exits the function properly.
+ * @input: Command got with dynamic memory allocation (getline), must free.
 */
-void shell_exit(void)
+void shell_exit(char **input, int exit_status)
 {
-	exit(EXIT_SUCCESS);
+	free_elem(input);
+	exit(exit_status);
 }
 
 /*---------------------------------------------------------------------------*/
