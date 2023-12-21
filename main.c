@@ -5,8 +5,8 @@
 /*---------------------------------------------------------------------------*/
 
 /**
- * main - Entry point. Is an infinite loop only on interactive mode, stopped
- * when entering specific commands ("exit" or "ctrl-d"), or when
+ * main - Entry point. Is an infinite loop, stopped when entering specific
+ * commands ("exit" or "ctrl-d"), or when
  * a major error occurs during program execution.
  *
  * @argc: Paramater unused.
@@ -24,16 +24,15 @@ int main(__attribute__((unused)) int argc, char *argv[])
 {
 	char *command = NULL, *src_input = NULL, *PATH = NULL, *array_token[128];
 	char *name_prog = argv[0];
-	size_t size_buff_input = 0, is_from_input = 0;
+	size_t size_buff_input = 0;
 
-	do {
+	while (1)
+	{
 		errno = 0;
 		if (isatty(STDIN_FILENO))
-		{
 			printf("$ ");
-			is_from_input = 1; }
 		if ((getline(&src_input, &size_buff_input, stdin)) == -1)
-			break;
+			shell_exit(&src_input);
 		if (src_input[0] != '\n')
 		{
 			command = get_cmd_line(src_input, array_token);
@@ -47,12 +46,10 @@ int main(__attribute__((unused)) int argc, char *argv[])
 						exec_command(PATH, array_token);
 						free_elem(&PATH);
 					} else
-						fprintf(stderr, "%s: %d: '%s': not found\n",
+						fprintf(stderr, "%s: %d:'%s': not found\n",
 						name_prog, __LINE__, command); } } }
-		if (is_from_input)
-			free_elem(&src_input);
+		free_elem(&src_input);
 		command = NULL;
-	} while (is_from_input);
-	free_elem(&src_input);
+	}
 	return (0);
 }

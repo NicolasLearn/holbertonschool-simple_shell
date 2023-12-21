@@ -146,15 +146,14 @@ char *is_here(char *path, char *file_exec)
 	}
 	else
 	{
-		if (is_path(file_exec, len_exec))
-            strncpy(try_path, file_exec, len_exec + 1);
-        else
-        {
-            strncpy(try_path, path, len_path);
-            try_path[len_path] = '/';
-            strncpy(&try_path[len_path + 1], file_exec, len_exec + 1);
-        }
-        try_path[len_path + len_exec + 1] = '\0';
+		if ((file_exec[0] == '/') || (file_exec[0] == '.'))
+			strcpy(try_path, file_exec);
+		else
+		{
+			strcpy(try_path, path);
+			try_path[len_path] = '/';
+			strcpy(&try_path[len_path + 1], file_exec);
+		}
 		if ((access(try_path, X_OK)) != 0)
 		{
 			free(try_path);
@@ -162,31 +161,4 @@ char *is_here(char *path, char *file_exec)
 		}
 	}
 	return (try_path);
-}
-
-/*---------------------------------------------------------------------------*/
-			/*is_path*/
-/*---------------------------------------------------------------------------*/
-
-/**
- * is_path - Check if the first arg input (f_exec) is a path or a command.
- *
- * @f_exec: Pointer to the first argument to be checked.
- * @len: Lenght of the string f_exec.
- *
- * Return: 1 if is a path. O if not.
-*/
-int is_path(char *f_exec, int len)
-{
-	int index = 0, it_is = 0;
-
-	for (; index < len; index++)
-	{
-		if (f_exec[index] == '/')
-		{
-			it_is = 1;
-			break;
-		}
-	}
-	return (it_is);
 }
