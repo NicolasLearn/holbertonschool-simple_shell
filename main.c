@@ -33,11 +33,7 @@ int main(__attribute__((unused)) int argc, char *argv[])
 			printf("$ ");
 			is_from_input = 1; }
 		if ((getline(&src_input, &size_buff_input, stdin)) == -1)
-		{
-			if (errno == 0)
-				break;
-			fprintf(stderr, "Input problem\nERR %s\n", strerror(errno));
-			shell_exit(&src_input, EXIT_SUCCESS); }
+			break;
 		if (src_input[0] != '\n')
 		{
 			command = get_cmd_line(src_input, array_token);
