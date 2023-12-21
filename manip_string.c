@@ -147,13 +147,14 @@ char *is_here(char *path, char *file_exec)
 	else
 	{
 		if (is_path(file_exec, len_exec))
-			strcpy(try_path, file_exec);
-		else
-		{
-			strcpy(try_path, path);
-			try_path[len_path] = '/';
-			strcpy(&try_path[len_path + 1], file_exec);
-		}
+            strncpy(try_path, file_exec, len_exec + 1);
+        else
+        {
+            strncpy(try_path, path, len_path);
+            try_path[len_path] = '/';
+            strncpy(&try_path[len_path + 1], file_exec, len_exec + 1);
+        }
+        try_path[len_path + len_exec + 1] = '\0';
 		if ((access(try_path, X_OK)) != 0)
 		{
 			free(try_path);
