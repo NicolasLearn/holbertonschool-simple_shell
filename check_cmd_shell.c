@@ -42,6 +42,7 @@ int is_shell_cmd(char *command, char **input)
 /**
  * shell_env - Print the variable environ.
  * @input: Argument unused.
+ * @index: Used for counter.
 */
 void shell_env(__attribute__((unused)) char **input, int index)
 {
@@ -56,6 +57,7 @@ void shell_env(__attribute__((unused)) char **input, int index)
 /**
  * shell_exit - Exits the function properly.
  * @input: Command got with dynamic memory allocation (getline), must free.
+ * @exit_status: Indicate if exit SUCCESS or FAILED.
 */
 void shell_exit(char **input, int exit_status)
 {
