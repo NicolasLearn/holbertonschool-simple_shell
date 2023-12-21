@@ -10,8 +10,10 @@ A simple UNIX command line interpreter
     * compilation
     * usage
     * style of coding
+    * flowchart
 * [Documentation](#Documentation)
-    * Testing
+    * Example
+    * valgrind output
     * Files
 * [Authors](#Authors)
 
@@ -59,7 +61,66 @@ To use the shell execute the ***hsh*** file
 
 All files are written in C programming language
 
+## Flowchart
+
+<img src="https://files.slack.com/files-tmb/T0423U1MW21-F06B5DKCJM9-bfb9c56166/flowchart_simple_shell.drawio__2__720.png">
+         <alt="Flowchart">
+
 ## Documantation
+
+## EXAMPLES
+
+**Example 1**
+
+Interactive mode
+
+```
+$ /bin/ls
+AUTHORS check_cmd_shell.c manip_string.c hsh main.c man_1_simple_shell  README.md main.h
+$ ls -la
+total 64
+drwxr-xr-x  3 vscode vscode  4096 Dec 21 10:40 .
+drwxr-xr-x 11 vscode vscode  4096 Dec 20 12:43 ..
+-rw-r--r--  1 vscode vscode   139 Dec 20 12:43 AUTHORS.md
+-rw-r--r--  1 vscode vscode  2723 Dec 20 12:43 check_cmd_shell.c
+drwxr-xr-x  8 vscode vscode  4096 Dec 21 10:21 .git
+-rwxr-xr-x  1 vscode vscode 17368 Dec 21 10:40 hsh
+-rw-r--r--  1 vscode vscode  1142 Dec 20 12:43 main.c
+-rw-r--r--  1 vscode vscode  1752 Dec 20 12:43 main.h
+-rw-r--r--  1 vscode vscode  4158 Dec 20 12:43 manip_string.c
+-rw-r--r--  1 vscode vscode  6068 Dec 21 10:39 README.md
+```
+**Example 2**
+
+Interactive mode will display the same output as the interactive one
+
+```
+echo "/bin/ls" | ./hsh
+AUTHORS check_cmd_shell.c  manip_string.c hsh main.c  man_1_simple_shell  README.md     main.h
+```
+
+### valgrind output
+
+```
+valgrind ./hsh
+==821== Memcheck, a memory error detector
+==821== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==821== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==821== Command: ./hsh
+==821== 
+$ ls
+AUTHORS.md  check_cmd_shell.c  hsh  main.c  main.h  manip_string.c  README.md
+$ ==821== 
+==821== HEAP SUMMARY:
+==821==     in use at exit: 0 bytes in 0 blocks
+==821==   total heap usage: 10 allocs, 10 frees, 2,622 bytes allocated
+==821== 
+==821== All heap blocks were freed -- no leaks are possible
+==821== 
+==821== For lists of detected and suppressed errors, rerun with: -s
+==821== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+```
+
 ### Files
 
 `main.c` :
@@ -109,3 +170,16 @@ function : void shell_exit(char *);
 function : void exec_command(char *, char **);
 
 * creates a child process to execute an external command with the specified arguments and waits for the command to finish executing before returning.
+
+## how we use shell:
+
+shell display each time a command that we executed
+
+the comand that most user excute in shell:          
+
+|- ls        |to list files and directory            |
+| :--------- | ------------------------------------: |
+|- pwd       | print working directory               |
+|- cat       | show you what we wrote in our file    |
+|- env       | print the environment variable        |
+|- exit      | shell will end and it gonna exit      |
