@@ -33,8 +33,76 @@ If a built-in command is not found, the shell searches for the command in the PA
 .SH EXECUTE COMMAND
 Commands are executed in a child process of the main process.
 
+.SH EXAMPLES
+
+interactive mode :
+
+$ ./hsh
+$ ls
+check_cmd_shell.c  hsh  main.c  main.h  man_1_simple_shell  manip_string.c  README.md
+$ ls -l
+total 44
+-rw-r--r-- 1 vscode vscode  2252 Dec 21 14:59 check_cmd_shell.c
+-rwxr-xr-x 1 vscode vscode 17208 Dec 21 15:32 hsh
+-rw-r--r-- 1 vscode vscode  1059 Dec 21 14:59 main.c
+-rw-r--r-- 1 vscode vscode  1484 Dec 21 14:59 main.h
+-rw-r--r-- 1 vscode vscode  1516 Dec 21 15:06 man_1_simple_shell
+-rw-r--r-- 1 vscode vscode  3849 Dec 21 14:59 manip_string.c
+-rw-r--r-- 1 vscode vscode    44 Dec 21 14:59 README.md
+$ exit
+vscode ➜ /workspaces/ubuntu/holbertonschool-simple_shell $
+
+example of env :
+$ ./hsh
+$ env
+SHELL=/bin/bash
+COLORTERM=truecolor
+TERM_PROGRAM_VERSION=1.85.1
+HOSTNAME=bd74ae2deddd
+SSH_AUTH_SOCK=/tmp/vscode-ssh-auth-75b07c96-5ac9-4652-a921-3a66ebed8c03.sock
+REMOTE_CONTAINERS_IPC=/tmp/vscode-remote-containers-ipc-75b07c96-5ac9-4652-a921-3a66ebed8c03.sock
+PWD=/workspaces/ubuntu/holbertonschool-simple_shell
+VSCODE_GIT_ASKPASS_NODE=/vscode/vscode-server/bin/linux-x64/0ee08df0cf4527e40edc9aa28f4b5bd38bbff2b2/node
+HOME=/home/vscode
+LANG=en_US.UTF-8
+REMOTE_CONTAINERS=true
+GIT_ASKPASS=/vscode/vscode-server/bin/linux-x64/0ee08df0cf4527e40edc9aa28f4b5bd38bbff2b2/extensions/git/dist/askpass.sh
+LESSOPEN=| /usr/bin/lesspipe %s
+USER=vscode
+VSCODE_GIT_IPC_HANDLE=/tmp/vscode-git-1438fee2c8.sock
+SHLVL=2
+GIT_EDITOR=code --wait
+PROMPT_DIRTRIM=4
+VSCODE_GIT_ASKPASS_MAIN=/vscode/vscode-server/bin/linux-x64/0ee08df0cf4527e40edc9aa28f4b5bd38bbff2b2/extensions/git/dist/askpass-main.js
+BROWSER=/vscode/vscode-server/bin/linux-x64/0ee08df0cf4527e40edc9aa28f4b5bd38bbff2b2/bin/helpers/browser.sh
+PATH=/vscode/vscode-server/bin/linux-x64/0ee08df0cf4527e40edc9aa28f4b5bd38bbff2b2/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/vscode/.local/bin
+TERM_PROGRAM=vscode
+VSCODE_IPC_HOOK_CLI=/tmp/vscode-ipc-b0232c0c-871e-4c29-8322-d40bb25936c9.sock
+OLDPWD=/workspaces/ubuntu
+_=./hsh
+$ 
+
+error situation :
+$ ./hsh
+$ l
+error x : 'l' : No such file or directory
+$ lol
+error x : 'lol' : No such file or directory
+$
+
+non interactive mode :
+
+$ echo "/bin/ls" | ./hsh
+check_cmd_shell.c  hsh  main.c  main.h  man_1_simple_shell  manip_string.c  README.md
+vscode ➜ /workspaces/ubuntu/holbertonschool-simple_shell $
+
 .SH BUILT-IN
-This version includes 2 built-ins (functions that are not found on PATH). env built-in prints all the environment variables. exit ends the shell.
+This version includes 2 built-ins (functions that are not found on PATH).
+env : built-in prints all the environment variables. 
+exit : ends the shell.
+
+.SH RETURN VALUE
+0 if success and 1 if error.
 
 Author
     This function was implemented by Nolan Binet and Nicolas Quoirez.
