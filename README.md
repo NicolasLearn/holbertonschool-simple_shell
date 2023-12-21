@@ -24,8 +24,7 @@ A **shell** is a command-line interpreter, it is the computer program that provi
 ## Project Information
 ### General requirements
 
- * Allowed editors: vi, vim, emacs
- * All your files will be compiled on `Ubuntu 14.04 LTS`
+ * All your files will be compiled on `Ubuntu 20.04 LTS`
  * Your C programs and functions will be compiled with `gcc 4.8.4` using the flags `-Wall` `-Werror` `-Wextra` and `-pedantic`
  * Your code should use the Betty style. It will be checked using betty-style.pl and betty-doc.pl
  * No more than 5 functions per file
@@ -36,6 +35,7 @@ A **shell** is a command-line interpreter, it is the computer program that provi
 
 * all functions from string.h
 * `isatty` (man 3 isatty)
+* `malloc` (man 3 malloc)
 * `free` (man 3 free)
 * `fork` (man 2 fork)
 * `execve` (man 2 execve)
@@ -44,7 +44,15 @@ A **shell** is a command-line interpreter, it is the computer program that provi
 * `strtok` (man 3 strtok)
 * `perror` (man 3 perror)
 * `printf` (man 3 printf)
+* `fprintf` (man 3 fprintf)
+* `strlen` (man 3 strlen)
+* `strdup` (man 3 strdup)
+* `strcpy` (man 3 strcpy)
+* `strncmp` (man 3 strncmp)
+* `strcmp` (man 3 strcmp)
+* `strerror` (man 3 strerror)
 * `getline` (man 3 getline)
+* `access` (man 2 access)
 
 ### Compilation
 
@@ -63,12 +71,12 @@ All files are written in C programming language
 
 ## Flowchart
 
-<img src="https://files.slack.com/files-tmb/T0423U1MW21-F06B5DKCJM9-bfb9c56166/flowchart_simple_shell.drawio__2__720.png">
+<img src="https://files.slack.com/files-pri/T0423U1MW21-F06BV784XEU/flowchart_simple_shell.drawio__2_.png">
          <alt="Flowchart">
 
-## Documantation
+## Documentation
 
-## EXAMPLES
+### EXAMPLES
 
 **Example 1**
 
@@ -92,7 +100,7 @@ drwxr-xr-x  8 vscode vscode  4096 Dec 21 10:21 .git
 ```
 **Example 2**
 
-Interactive mode will display the same output as the interactive one
+NON Interactive mode will display the same output as the interactive one
 
 ```
 echo "/bin/ls" | ./hsh
@@ -153,6 +161,12 @@ function : char *is_here(char *, char *);
 
 * This code checks for the presence of an executable file at a specified path by combining the directory and file paths, then checks whether it is accessible at runtime before returning the full path.
 
+function : is_path(char *, int );
+
+* check if the first argument input is a path or command.
+
+--------------------------------------------------------------------------
+
 `check_cmd_shell.c` :
 
 function : int is_shell_cmd(char *, char *);
@@ -170,6 +184,10 @@ function : void shell_exit(char *);
 function : void exec_command(char *, char **);
 
 * creates a child process to execute an external command with the specified arguments and waits for the command to finish executing before returning.
+
+function : free_elem(char **);
+
+* free element given in parameters.
 
 ## how we use shell:
 
