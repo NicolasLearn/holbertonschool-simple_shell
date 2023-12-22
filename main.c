@@ -24,19 +24,17 @@ int main(__attribute__((unused)) int argc, char *argv[])
 {
 	char *command = NULL, *src_input = NULL, *PATH = NULL, *array_token[128];
 	char *name_prog = argv[0];
-	size_t size_buff_input = 0, is_from_input = 0;
+	size_t size_buff_input = 0;
 
 	while (1)
 	{
 		errno = 0;
 		if (isatty(STDIN_FILENO))
-		{
 			printf("$ ");
-			is_from_input = 1; }
 		if ((getline(&src_input, &size_buff_input, stdin)) == -1)
 		{
 			if ((errno == 0) || (errno == 25))
-				shell_exit(&src_input, EXIT_SUCCESS);
+				shell_exit(&src_input, 2);
 			shell_exit(&src_input, EXIT_FAILURE);
 		}
 		if (src_input[0] != '\n')
@@ -52,8 +50,8 @@ int main(__attribute__((unused)) int argc, char *argv[])
 						exec_command(PATH, array_token);
 						free_elem(&PATH);
 					} else
-						fprintf(stderr, "%s: %d:'%s': not found\n",
-						name_prog, __LINE__, command); } } }
+						fprintf(stderr, "%s: 1: %s: not found\n",
+						name_prog, command); } } }
 		free_elem(&src_input);
 		command = NULL;
 	}
