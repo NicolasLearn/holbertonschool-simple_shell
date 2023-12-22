@@ -54,8 +54,6 @@ int main(__attribute__((unused)) int argc, char *argv[])
 					} else
 						fprintf(stderr, "%s: %d:'%s': not found\n",
 						name_prog, __LINE__, command); } } }
-		if ((is_from_input == 0) && (errno != 0))
-			shell_exit(&src_input, EXIT_FAILURE);
 		free_elem(&src_input);
 		command = NULL;
 	}
