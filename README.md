@@ -84,8 +84,7 @@ All files are written in C programming language
 
 ## Flowchart
 
-<img src="https://files.slack.com/files-pri/T0423U1MW21-F06BV784XEU/flowchart_simple_shell.drawio__2_.png">
-         <alt="Flowchart">
+<img src="https://files.slack.com/files-tmb/T0423U1MW21-F06BV784XEU-437af4d99e/flowchart_simple_shell.drawio__2__720.png" alt="Flowchart">
 
 ## man page
 
