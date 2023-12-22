@@ -72,6 +72,7 @@ char *is_valid_cmd(char *command)
 		array_token_path[index] = NULL;
 		for (index = 0; array_token_path[index]; index++)
 		{
+			errno = 0;
 			match_path = is_here(array_token_path[index], command);
 			if (match_path != NULL)
 				break;
@@ -146,7 +147,7 @@ char *is_here(char *path, char *file_exec)
 	}
 	else
 	{
-		if ((file_exec[0] == '/') || (file_exec[0] == '.'))
+		if (is_path(file_exec, len_exec))
 			strcpy(try_path, file_exec);
 		else
 		{
@@ -161,4 +162,31 @@ char *is_here(char *path, char *file_exec)
 		}
 	}
 	return (try_path);
+}
+
+/*---------------------------------------------------------------------------*/
+			/*is_path*/
+/*---------------------------------------------------------------------------*/
+
+/**
+ * is_path - Check if the first arg input (f_exec) is a path or a command.
+ *
+ * @f_exec: Pointer to the first argument to be checked.
+ * @len: Lenght of the string f_exec.
+ *
+ * Return: 1 if is a path. O if not.
+*/
+int is_path(char *f_exec, int len)
+{
+	int index = 0, it_is = 0;
+
+	for (; index < len; index++)
+	{
+		if (f_exec[index] == '/')
+		{
+			it_is = 1;
+			break;
+		}
+	}
+	return (it_is);
 }
