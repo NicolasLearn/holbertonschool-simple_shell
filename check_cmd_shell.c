@@ -26,7 +26,7 @@ int is_shell_cmd(char *command, char **input)
 	{
 		if (strcmp(command, array_cmd_shell[i].command) == 0)
 		{
-			array_cmd_shell[i].func(input);
+			array_cmd_shell[i].func(input, EXIT_SUCCESS);
 			is_check = 1;
 			break;
 		}
@@ -42,13 +42,14 @@ int is_shell_cmd(char *command, char **input)
 /**
  * shell_env - Print the variable environ.
  * @input: Argument unused.
+ * @index: Using for counter.
 */
-void shell_env(__attribute__((unused)) char **input)
+void shell_env(__attribute__((unused)) char **input, int index)
 {
-	int i;
+	index = 0;
 
-	for (i = 0; environ[i] != NULL; i++)
-		printf("%s\n", environ[i]);
+	for (; environ[index] != NULL; index++)
+		printf("%s\n", environ[index]);
 }
 
 /*-----------------------------------------------------------------*/
@@ -58,11 +59,12 @@ void shell_env(__attribute__((unused)) char **input)
 /**
  * shell_exit - Exits the function properly.
  * @input: Command got with dynamic memory allocation (getline), must free.
+ * @exit_status: Status exit to be passed.
 */
-void shell_exit(char **input)
+void shell_exit(char **input, int exit_status)
 {
 	free_elem(input);
-	exit(EXIT_SUCCESS);
+	exit(exit_status);
 }
 
 /*---------------------------------------------------------------------------*/

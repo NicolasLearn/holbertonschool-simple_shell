@@ -32,12 +32,12 @@ extern int errno;
 typedef struct shell_cmd
 {
 	char *command;
-	void (*func)(char **);
+	void (*func)(char **, int);
 } shell_cmd;
 
 int is_shell_cmd(char *command, char **input);
-void shell_exit(char **);
-void shell_env(char **);
+void shell_exit(char **, int);
+void shell_env(char **, int);
 void exec_command(char *path, char *arr_tok[]);
 void free_elem(char **elem);
 
@@ -48,7 +48,7 @@ void free_elem(char **elem);
 char *get_cmd_line(char *input, char *array_token[]);
 char *is_valid_cmd(char *command);
 char *get_PATH(void);
-char *is_here(char *path, char *exec);
+char *is_here(char *path, char *file_exec);
 int is_path(char *f_exec, int len);
 
 #endif
